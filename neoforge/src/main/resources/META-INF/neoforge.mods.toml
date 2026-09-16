@@ -19,13 +19,13 @@ config = "multicount.mixins.json"
 [[dependencies.multicount]]
 modId = "neoforge"
 type = "required"
-versionRange = "(26.1,)"
+versionRange = "(26.1, 26.3)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.multicount]]
 modId = "minecraft"
 type = "required"
-versionRange = "(26.1,)"
+versionRange = "(26.1, 26.3)"
 ordering = "NONE"
 side = "BOTH"
