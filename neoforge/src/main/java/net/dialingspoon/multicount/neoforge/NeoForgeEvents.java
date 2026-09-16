@@ -1,6 +1,7 @@
 package net.dialingspoon.multicount.neoforge;
 
 import net.dialingspoon.multicount.Multicount;
+import net.dialingspoon.multicount.command.LanAccountCommand;
 import net.dialingspoon.multicount.server.command.AccountCommand;
 import net.dialingspoon.multicount.server.command.MaxAccountCommand;
 import net.dialingspoon.multicount.server.command.MaxAccountQueryCommand;
@@ -38,6 +39,11 @@ public class NeoForgeEvents {
 
     @EventBusSubscriber(modid = Multicount.MOD_ID, value = Dist.CLIENT)
     public static class ClientNeoForgeEvents {
+        @SubscribeEvent
+        public static void onRegisterCommands(RegisterCommandsEvent event) {
+            LanAccountCommand.register(event.getDispatcher());
+        }
+
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             Multicount.accountHandler.uuid = Minecraft.getInstance().getUser().getProfileId().toString();

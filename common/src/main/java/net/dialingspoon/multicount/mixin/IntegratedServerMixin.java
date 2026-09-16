@@ -1,7 +1,6 @@
 package net.dialingspoon.multicount.mixin;
 
 import com.mojang.datafixers.DataFixer;
-import net.dialingspoon.multicount.command.LanAccountCommand;
 import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.Services;
@@ -26,9 +25,10 @@ public abstract class IntegratedServerMixin extends MinecraftServer {
         super(serverThread, storageSource, packRepository, worldStem, gameRules, proxy, fixerUpper, services, levelLoadListener, propagatesCrashes, notificationManager);
     }
 
-    @Inject(method = "updatePermissionAndChatAbilities", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;setPermissions(Lnet/minecraft/server/permissions/PermissionSet;)V"))
-    public void registerCommand(CallbackInfo ci) {
-        this.getCommands().getDispatcher().register(LanAccountCommand.register(this.getCommands().getDispatcher()));
+    @Inject(method = "setMultiplayerScope", at = @At("TAIL"))
+    private void refreshLanCommands(MultiplayerScope scope, CallbackInfo ci) {
+        this.execute(() -> this.getPlayerList().getPlayers().forEach(player ->
+                this.getCommands().sendCommands(player)));
     }
 
 }
